@@ -20,7 +20,8 @@
               # Voeg hier eventuele Python bibliotheken toe, bijv:
               # numpy
               # requests
-              crypto
+              pycryptodome
+              cryptography
             ]))
           ];
 
