@@ -51,6 +51,7 @@
               cryptography
               rtsp
               opencv-python
+              requests
             ]))
           ];
 
