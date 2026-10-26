@@ -13,15 +13,44 @@
       });
     in
     {
-      devShells = forEachSupportedSystem ({ pkgs }: {
+      devShells = forEachSupportedSystem ({ pkgs }:
+        let
+                      # Define the PyPI rtsp package
+                      rtsp = pkgs.python3Packages.buildPythonPackage rec {
+                        pname = "rtsp";
+                        version = "2.0.3";
+                        pyproject = true;
+
+                        src = pkgs.python3Packages.fetchPypi {
+                          inherit pname version;
+                          sha256 = "eb19a2104fafba1fefec5d23fb04a79441ec12f13914d3bb1c316484cee597bd";
+                        };
+
+                        build-system = [
+                          pkgs.python3Packages.hatchling
+                        ];
+
+                        dependencies = with pkgs.python3Packages; [
+                          av
+                          numpy
+                          pillow
+                        ];
+
+                        doCheck = false;
+                      };
+                    in
+                    {
         default = pkgs.mkShell {
           packages = with pkgs; [
+            ffmpeg
             (python3.withPackages (ps: with ps; [
               # Voeg hier eventuele Python bibliotheken toe, bijv:
               # numpy
               # requests
               pycryptodome
               cryptography
+              rtsp
+              opencv-python
             ]))
           ];
 
