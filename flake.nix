@@ -52,6 +52,7 @@
               rtsp
               opencv-python
               requests
+              sympy
             ]))
           ];
 
