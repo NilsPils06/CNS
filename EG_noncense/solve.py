@@ -15,7 +15,9 @@ with open("challenge.json", "r") as f:
     # K = (C1)^Xa mod q
     # M = (C2 * K^-1) mod q
     # Xa = dlog_a,q(Ya)
+    # M2 = (C2,1)^-1 C2,2 M1 mod q
+    # C2,1 = (K * M1) mod q
+    # C2,2 = (K * M2) mod q
     m_known = bytes_to_long(plain_known.encode())
-    K = (cipher_known[1] * pow(m_known, -1, p)) % p
-    M = (cipher_flag[1] * pow(K, -1, p)) % p
-    print(long_to_bytes(M).decode())
+    M = (pow(cipher_known[1], -1, p) * cipher_flag[1] * m_known) % p
+    print(long_to_bytes(M))
